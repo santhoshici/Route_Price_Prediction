@@ -136,6 +136,8 @@ This endpoint returns the calculated driver rate for one route. It uses:
 
 `pickup_city`, `destination_city`, `pickup_state`, and `drop_state` are optional, but passing them avoids reverse geocoding.
 
+New trailer truck types from `data/data.xlsx` are supported: `20 feet trailor` / `20 feet trailer` and `24 feet trailor` / `24 feet trailer`.
+
 Example request body:
 
 ```json

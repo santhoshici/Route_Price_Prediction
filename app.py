@@ -109,6 +109,7 @@ def normalize_vehicle_type(value: object) -> object:
     if pd.isna(text):
         return text
     text = str(text).lower()
+    text = re.sub(r"\b(\d+(?:\.\d+)?)\s*-?\s*(feet|foot|ft)\b", r"\1 Feet", text)
     text = re.sub(r"\bfeet\b", "Feet", text)
     text = re.sub(r"\bfoot\b", "Feet", text)
     text = re.sub(r"\bft\b", "Feet", text)
