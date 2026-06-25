@@ -286,3 +286,56 @@ Then open:
 ```text
 http://localhost:8000/docs
 ```
+
+To test the live server flow, you should test in two layers:
+
+## 1. Test the Python API on the server
+
+From SSH on the server:
+
+curl http://127.0.0.1:8002/health
+
+Then test prediction:
+
+```powershell
+
+curl -X POST "http://127.0.0.1:8002/predict-price" \
+-H "Content-Type: application/json" \
+--data '{
+"pickup_latitude": 13.0827,
+"pickup_longitude": 80.2707,
+"drop_latitude": 12.9716,
+"drop_longitude": 77.5946,
+"pickup_city": "Chennai",
+"destination_city": "Bengaluru",
+"pickup_state": "Tamil Nadu",
+"drop_state": "Karnataka",
+"truck_type": "10 feet",
+"body_type": "Open",
+"weight": "1 tons",
+"distance_km": 350,
+"diesel_price": 95
+}'
+```
+If this works, the Python service is fine.
+
+## 2. Test Laravel calling the Python service on the same server
+
+This is the real live-server integration test.
+
+Laravel should use:
+
+PRICE_PREDICTION_API_URL=http://127.0.0.1:8002
+
+Then your Laravel code should:
+
+- load an indent from PostgreSQL
+- build the JSON payload
+- call the Python API
+- render the card in indent/{id}
+
+To test that end-to-end, open the live Laravel page in browser:
+
+- https://your-laravel-domain/indent/{id}
+
+and check whether the pricing card appears.
